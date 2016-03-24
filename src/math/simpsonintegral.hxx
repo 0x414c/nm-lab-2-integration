@@ -39,7 +39,7 @@ namespace Math
       real_t operator () (real_t u) const;
 
 
-      constexpr static real_t Theta_Inv = REAL_C (15);
+      constexpr static real_t Theta_Inv = REAL_C (15.);
 
 
     private:

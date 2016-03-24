@@ -2,6 +2,8 @@
 #define CONFIG_HXX
 
 
+#include "globaldefines.hxx"
+
 #include <utility>
 
 #include <QColor>
@@ -85,27 +87,27 @@ namespace Config
 
   namespace MathConstants
   {
-#ifdef REAL_T_IS_BOOST_FLOAT128
+#ifdef REAL_IS_BOOST_FLOAT128
     constexpr Math::real_t Epsilon = REAL_C (1E-32);
 #else
-#ifdef REAL_T_IS_GCC_FLOAT80
+#ifdef REAL_IS_GCC_FLOAT80
     constexpr Math::real_t Epsilon = REAL_C (1E-17);
 #else
-#ifdef REAL_T_IS_LONG_DOUBLE
+#ifdef REAL_IS_LONG_DOUBLE
     constexpr Math::real_t Epsilon = REAL_C (1E-17);
 #else
-#ifdef REAL_T_IS_DOUBLE
+#ifdef REAL_IS_DOUBLE
     constexpr Math::real_t Epsilon = REAL_C (1E-14);
 #else
-#ifdef REAL_T_IS_FLOAT
+#ifdef REAL_IS_FLOAT
     constexpr Math::real_t Epsilon = REAL_C (1E-5);
 #else
 #error "`MathConstants::Epsilon' cannot be defined."
-#endif // REAL_T_IS_FLOAT
-#endif // REAL_T_IS_DOUBLE
-#endif // REAL_T_IS_LONG_DOUBLE
-#endif // REAL_T_IS_GCC_FLOAT80
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_FLOAT
+#endif // REAL_IS_DOUBLE
+#endif // REAL_IS_LONG_DOUBLE
+#endif // REAL_IS_GCC_FLOAT80
+#endif // REAL_IS_BOOST_FLOAT128
   }
 }
 

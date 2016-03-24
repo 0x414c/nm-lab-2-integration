@@ -873,10 +873,10 @@ MainWindow::updateCustomPlot (QCustomPlot* customPlot)
 
   clearCustomPlot (customPlot);
 
-  plotFunction (
-    I, samplesCount, plotParam_A_, plotParam_B_, plotParam_C_, plotParam_D_,
-    Colors[QStringLiteral ("Red")], customPlot, QStringLiteral ("Iₙ(p)")
-  );
+//  plotFunction (
+//    I, samplesCount, plotParam_A_, plotParam_B_, plotParam_C_, plotParam_D_,
+//    Colors[QStringLiteral ("Red")], customPlot, QStringLiteral ("Iₙ(p)")
+//  );
 
   plotFunction (
     std::ref (rungeRule), samplesCount,

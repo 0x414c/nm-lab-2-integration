@@ -78,6 +78,7 @@ HEADERS += \
   src/math/mathutils.hxx \
   src/math/numerictypes.hxx \
   src/math/rungerule.hxx \
-  src/math/simpsonintegral.hxx
+  src/math/simpsonintegral.hxx \
+    src/globaldefines.hxx
 
 FORMS += forms/mainwindow.ui

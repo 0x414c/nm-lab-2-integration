@@ -1,17 +1,18 @@
-﻿#ifndef REAL_T_IS_BOOST_FLOAT128
+﻿#include "../globaldefines.hxx"
+
+#ifdef REAL_IS_BUILTIN
 #include <cmath>
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BUILTIN
 #include <cstddef>
 
 #include <functional>
-#include <iostream>
 #include <stdexcept>
 #include <utility>
 #include <vector>
 
-#ifdef REAL_T_IS_BOOST_FLOAT128
+#ifdef REAL_IS_BOOST_FLOAT128
 #include <boost/math/special_functions/fpclassify.hpp>
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BOOST_FLOAT128
 
 #include "simpsonintegral.hxx"
 #include "mathutils.hxx"
@@ -45,7 +46,7 @@ namespace Math
 
     x_ = std::vector <real_t> (2 * n_ + 1);
 
-    h_ = ((x_n_ - x_0_) / real_t (2 * n_));
+    h_ = (x_n_ - x_0_) / real_t (2 * n_);
 
     for (size_t k (0); k < 2 * n_ + 1; ++k)
     {
@@ -145,15 +146,15 @@ namespace Math
     {
       const real_t term (
         func_ (x_[k], u) +
-        real_t (4) * func_ (x_[k + 1], u) +
+        REAL_C (4.) * func_ (x_[k + 1], u) +
         func_ (x_[k + 2], u)
       );
 
-#ifdef REAL_T_IS_BOOST_FLOAT128
+#ifdef REAL_IS_BOOST_FLOAT128
       if (boost::math::isnan (term))
 #else
       if (std::isnan (term))
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BOOST_FLOAT128
       {
         continue;
       }
@@ -166,6 +167,6 @@ namespace Math
       }
     }
 
-    return (sum / real_t (3) * h_);
+    return (sum / REAL_C (3.) * h_);
   }
 }

@@ -2,14 +2,15 @@
 #define RUNGERULE_HXX
 
 
-#ifndef REAL_T_IS_BOOST_FLOAT128
+#include "../globaldefines.hxx"
+
+#ifdef REAL_IS_BUILTIN
 #include <cmath>
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BUILTIN
 #include <cstddef>
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <utility>
 
 #include "simpsonintegral.hxx"
@@ -23,6 +24,8 @@ namespace Math
   class RungeRule
   {
     public:
+      RungeRule (void) = delete;
+
       RungeRule (const TIntegral& integral, real_t epsilon) :
         integral_n_ (integral),
         n_max_ (integral_n_.n ()),
@@ -38,15 +41,13 @@ namespace Math
           integral_n_.n () * 2
         );
 
-//        std::cerr << '\t' << integral_n_.n () << ' ' << integral_2n.n () << ' ' << n_max_ << '\n';
-
         real_t I_n (integral_n_ (u));
         real_t I_2n (integral_2n (u));
-#ifdef REAL_T_IS_BOOST_FLOAT128
+#ifdef REAL_IS_BOOST_FLOAT128
         real_t delta_2n (boost::multiprecision::abs (I_2n - I_n) / TIntegral::Theta_Inv);
 #else
         real_t delta_2n (std::abs (I_2n - I_n) / TIntegral::Theta_Inv);
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BOOST_FLOAT128
 
         while (isGreaterThan (delta_2n, epsilon_))
         {
@@ -56,15 +57,13 @@ namespace Math
             integral_n_.n () * 2
           );
 
-//          std::cerr << '!' << integral_n_.n () << ' ' << integral_2n.n () << '\n';
-
-          I_n = integral_n_ (u) ;
+          I_n = integral_n_ (u);
           I_2n = integral_2n (u);
-#ifdef REAL_T_IS_BOOST_FLOAT128
+#ifdef REAL_IS_BOOST_FLOAT128
           delta_2n = (boost::multiprecision::abs (I_2n - I_n) / TIntegral::Theta_Inv);
 #else
           delta_2n = (std::abs (I_2n - I_n) / TIntegral::Theta_Inv);
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BOOST_FLOAT128
         }
 
         n_max_ = std::max (n_max_, integral_2n.n ());
@@ -73,7 +72,8 @@ namespace Math
       }
 
 
-      size_t n_max (void) const
+      size_t
+      n_max (void) const
       {
         return n_max_;
       }

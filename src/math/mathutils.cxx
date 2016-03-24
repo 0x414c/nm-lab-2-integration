@@ -1,6 +1,6 @@
-﻿#ifndef REAL_T_IS_BOOST_FLOAT128
+﻿#ifdef REAL_IS_BUILTIN
 #include <cmath>
-#endif // REAL_T_IS_BOOST_FLOAT128
+#endif // REAL_IS_BUILTIN
 
 #include <algorithm>
 
@@ -31,11 +31,11 @@ namespace Math
     return (
       (x - y) >
       Config::MathConstants::Epsilon * std::max<real_t> ({
-#ifdef REAL_T_IS_BOOST_FLOAT128
-        REAL_C (1), boost::multiprecision::abs (x), boost::multiprecision::abs (y)
+#ifdef REAL_IS_BOOST_FLOAT128
+        REAL_EXTERNAL_C (1.), boost::multiprecision::abs (x), boost::multiprecision::abs (y)
 #else
-        REAL_C (1), std::abs (x), std::abs (y)
-#endif // REAL_T_IS_BOOST_FLOAT128
+        REAL_BUILTIN_C (1.), std::abs (x), std::abs (y)
+#endif // REAL_IS_BOOST_FLOAT128
       })
     );
   }
