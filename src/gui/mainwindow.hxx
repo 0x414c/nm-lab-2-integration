@@ -113,7 +113,7 @@ class MainWindow :
     void updateCustomPlot (QCustomPlot* customPlot);
 
     void plotFunction (
-      const std::function<Math::Float (Math::Float)>& f, int samplesCount,
+      const std::function<Math::real_t (Math::real_t)>& f, int samplesCount,
       double keyStart, double keyEnd, double valueStart, double valueEnd,
       const QColor& color, QCustomPlot* customPlot, const QString& name
     );

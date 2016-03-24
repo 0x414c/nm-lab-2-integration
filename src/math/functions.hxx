@@ -7,10 +7,10 @@
 
 namespace Math
 {
-  Float f (
-    Float x,
-    Float alpha, Float beta, Float gamma,
-    Float delta, Float epsilon, Float mu
+  real_t f (
+    real_t x,
+    real_t alpha, real_t beta, real_t gamma,
+    real_t delta, real_t epsilon, real_t mu
   );
 }
 

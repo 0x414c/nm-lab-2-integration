@@ -8,11 +8,11 @@
 namespace Math
 {
   // TODO: [~-] Inline?
-  Float lerp (Float x1, Float y1, Float x2, Float y2, Float x0);
+  real_t lerp (real_t x1, real_t y1, real_t x2, real_t y2, real_t x0);
 
-  Float clamp (Float a, Float b, Float x);
+  real_t clamp (real_t a, real_t b, real_t x);
 
-  bool isGreaterThan (Float x, Float y);
+  bool isGreaterThan (real_t x, real_t y);
 }
 
 

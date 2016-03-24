@@ -20,19 +20,19 @@ namespace Config
       constexpr double Alpha = 1.;
       constexpr double Beta = 1.;
       constexpr double Gamma = 1.;
-      constexpr double Delta = 1.;
-      constexpr double Epsilon = 1.;
+      constexpr double Delta = 2.;
+      constexpr double Epsilon = 2.5;
       constexpr double Mu = 1.;
 
-      constexpr double A = -10.;
-      constexpr double B = 10.;
-      constexpr double C = -5.;
-      constexpr double D = 5.;
+      constexpr double A = -1.5;
+      constexpr double B = 1.5;
+      constexpr double C = -.5;
+      constexpr double D = 1.5;
 
       constexpr int N = 10;
       constexpr int DeltaExponent = -2;
-      constexpr double IntegrParam_A = -1.;
-      constexpr double IntegrParam_B = 1.;
+      constexpr double IntegrParam_A = -.5;
+      constexpr double IntegrParam_B = .5;
 
       constexpr bool LiveUpdateEnabled = false;
     }
@@ -85,10 +85,27 @@ namespace Config
 
   namespace MathConstants
   {
-//    constexpr Math::Float32 Epsilon = 1E-5F;
-//    constexpr Math::Float64 Epsilon = 1E-14;
-    constexpr Math::Float80 Epsilon = 1E-17L;
-//    constexpr Math::Float128 Epsilon = 1E-32Q;
+#ifdef REAL_T_IS_BOOST_FLOAT128
+    constexpr Math::real_t Epsilon = REAL_C (1E-32);
+#else
+#ifdef REAL_T_IS_GCC_FLOAT80
+    constexpr Math::real_t Epsilon = REAL_C (1E-17);
+#else
+#ifdef REAL_T_IS_LONG_DOUBLE
+    constexpr Math::real_t Epsilon = REAL_C (1E-17);
+#else
+#ifdef REAL_T_IS_DOUBLE
+    constexpr Math::real_t Epsilon = REAL_C (1E-14);
+#else
+#ifdef REAL_T_IS_FLOAT
+    constexpr Math::real_t Epsilon = REAL_C (1E-5);
+#else
+#error "`MathConstants::Epsilon' cannot be defined."
+#endif // REAL_T_IS_FLOAT
+#endif // REAL_T_IS_DOUBLE
+#endif // REAL_T_IS_LONG_DOUBLE
+#endif // REAL_T_IS_GCC_FLOAT80
+#endif // REAL_T_IS_BOOST_FLOAT128
   }
 }
 

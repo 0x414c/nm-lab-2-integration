@@ -651,7 +651,7 @@ MainWindow::setDefaults (void)
   ui_->integrParam_a_DoubleSpinBox->setValue (IntegrParam_A);
   ui_->integrParam_b_DoubleSpinBox->setValue (IntegrParam_B);
 
-  ui_->integrParam_gamma_RadioButton->setChecked (true);
+  ui_->integrParam_mu_RadioButton->setChecked (true);
 
   ui_->ctrl_liveUpdate_CheckBox->setChecked (LiveUpdateEnabled);
 }
@@ -725,6 +725,14 @@ MainWindow::initCustomPlot (QCustomPlot* customPlot)
   customPlot->xAxis->setLabel (QStringLiteral ("x"));
   customPlot->yAxis->setLabel (QStringLiteral ("y"));
 
+  QCPPlotTitle* const plotTitle (new QCPPlotTitle (customPlot));
+  plotTitle->setText (
+    QStringLiteral ("#2 // Численное интегрирование // Алексей Горишный // группа ИТ-32БО")
+  );
+  plotTitle->setFont (normalFont);
+  customPlot->plotLayout ()->insertRow (0);
+  customPlot->plotLayout ()->addElement (0, 0, plotTitle);
+
   connect (
     customPlot, SIGNAL (selectionChangedByUser (void)),
     this, SLOT (on_plot_functions_CustomPlot_selectionChangedByUser (void))
@@ -782,6 +790,9 @@ MainWindow::clearCustomPlot (QCustomPlot* customPlot)
   customPlot->clearMask ();
   customPlot->clearPlottables ();
 
+//  customPlot->plotLayout ()->remove (customPlot->plotLayout ()->element (0, 0));
+//  customPlot->plotLayout ()->simplify ();
+
   customPlot->replot ();
 }
 
@@ -804,7 +815,7 @@ MainWindow::updateCustomPlot (QCustomPlot* customPlot)
     )
   );
 
-  function<Math::Float (Math::Float, Math::Float)> f;
+  function<Math::real_t (Math::real_t, Math::real_t)> f;
 
   switch (paramType_)
   {
@@ -864,13 +875,13 @@ MainWindow::updateCustomPlot (QCustomPlot* customPlot)
 
   plotFunction (
     I, samplesCount, plotParam_A_, plotParam_B_, plotParam_C_, plotParam_D_,
-    Colors[QStringLiteral ("Indigo")], customPlot, QStringLiteral ("Iₙ(p)")
+    Colors[QStringLiteral ("Red")], customPlot, QStringLiteral ("Iₙ(p)")
   );
 
   plotFunction (
     std::ref (rungeRule), samplesCount,
     plotParam_A_, plotParam_B_, plotParam_C_, plotParam_D_,
-    Colors[QStringLiteral ("Red")], customPlot, QStringLiteral ("I₂ₙ(p)")
+    Colors[QStringLiteral ("Indigo")], customPlot, QStringLiteral ("I₂ₙ(p)")
   );
 
   plotBoundingBox (
@@ -891,7 +902,7 @@ MainWindow::updateCustomPlot (QCustomPlot* customPlot)
 
 void
 MainWindow::plotFunction (
-  const std::function<Math::Float (Math::Float)>& func, int samplesCount,
+  const std::function<Math::real_t (Math::real_t)>& func, int samplesCount,
   double keyStart, double keyEnd, double valueStart, double valueEnd,
   const QColor& color, QCustomPlot* customPlot, const QString& name
 )

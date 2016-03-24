@@ -2,7 +2,9 @@
 #define RUNGERULE_HXX
 
 
+#ifndef REAL_T_IS_BOOST_FLOAT128
 #include <cmath>
+#endif // REAL_T_IS_BOOST_FLOAT128
 #include <cstddef>
 
 #include <algorithm>
@@ -21,26 +23,30 @@ namespace Math
   class RungeRule
   {
     public:
-      RungeRule (const TIntegral& integral, Float epsilon) :
+      RungeRule (const TIntegral& integral, real_t epsilon) :
         integral_n_ (integral),
         n_max_ (integral_n_.n ()),
         epsilon_ (epsilon)
       { }
 
 
-      Float
-      operator () (Float u)
+      real_t
+      operator () (real_t u)
       {
         TIntegral integral_2n (
           integral_n_.func (), integral_n_.x_0 (), integral_n_.x_n (),
           integral_n_.n () * 2
         );
 
-        std::cerr << '\t' << integral_n_.n () << ' ' << integral_2n.n () << ' ' << n_max_ << '\n';
+//        std::cerr << '\t' << integral_n_.n () << ' ' << integral_2n.n () << ' ' << n_max_ << '\n';
 
-        Float I_n (integral_n_ (u));
-        Float I_2n (integral_2n (u));
-        Float delta_2n (std::abs (I_2n - I_n) / TIntegral::Theta_Inv);
+        real_t I_n (integral_n_ (u));
+        real_t I_2n (integral_2n (u));
+#ifdef REAL_T_IS_BOOST_FLOAT128
+        real_t delta_2n (boost::multiprecision::abs (I_2n - I_n) / TIntegral::Theta_Inv);
+#else
+        real_t delta_2n (std::abs (I_2n - I_n) / TIntegral::Theta_Inv);
+#endif // REAL_T_IS_BOOST_FLOAT128
 
         while (isGreaterThan (delta_2n, epsilon_))
         {
@@ -54,7 +60,11 @@ namespace Math
 
           I_n = integral_n_ (u) ;
           I_2n = integral_2n (u);
+#ifdef REAL_T_IS_BOOST_FLOAT128
+          delta_2n = (boost::multiprecision::abs (I_2n - I_n) / TIntegral::Theta_Inv);
+#else
           delta_2n = (std::abs (I_2n - I_n) / TIntegral::Theta_Inv);
+#endif // REAL_T_IS_BOOST_FLOAT128
         }
 
         n_max_ = std::max (n_max_, integral_2n.n ());
@@ -65,8 +75,6 @@ namespace Math
 
       size_t n_max (void) const
       {
-        std::cerr << n_max_ << '\n';
-
         return n_max_;
       }
 
@@ -76,7 +84,7 @@ namespace Math
 
       size_t n_max_;
 
-      Float epsilon_;
+      real_t epsilon_;
   };
 }
 

@@ -1,4 +1,7 @@
-﻿#include <cstddef>
+﻿#ifndef REAL_T_IS_BOOST_FLOAT128
+#include <cmath>
+#endif // REAL_T_IS_BOOST_FLOAT128
+#include <cstddef>
 
 #include <functional>
 #include <iostream>
@@ -6,9 +9,9 @@
 #include <utility>
 #include <vector>
 
-#ifdef QUAD_PRECISION_ENABLED
+#ifdef REAL_T_IS_BOOST_FLOAT128
 #include <boost/math/special_functions/fpclassify.hpp>
-#endif // QUAD_PRECISION_ENABLED
+#endif // REAL_T_IS_BOOST_FLOAT128
 
 #include "simpsonintegral.hxx"
 #include "mathutils.hxx"
@@ -22,8 +25,8 @@ namespace Math
 
 
   SimpsonIntegral::SimpsonIntegral (
-    const std::function<Float (Float, Float)>& func,
-    Float x_0, Float x_n_1, size_t n
+    const std::function<real_t (real_t, real_t)>& func,
+    real_t x_0, real_t x_n_1, size_t n
   ) throw (std::invalid_argument) :
     func_ (func),
     x_0_ (x_0),
@@ -40,13 +43,13 @@ namespace Math
       throw std::invalid_argument ("`x_0' should be less than `x_n'.");
     }
 
-    x_ = std::vector <Float> (2 * n_ + 1);
+    x_ = std::vector <real_t> (2 * n_ + 1);
 
-    h_ = ((x_n_ - x_0_) / Float (2 * n_));
+    h_ = ((x_n_ - x_0_) / real_t (2 * n_));
 
     for (size_t k (0); k < 2 * n_ + 1; ++k)
     {
-      x_[k] = x_0_ + Float (k) * h_;
+      x_[k] = x_0_ + real_t (k) * h_;
     }
   }
 
@@ -71,21 +74,21 @@ namespace Math
   { }
 
 
-  const std::function<Float (Float, Float)>&
+  const std::function<real_t (real_t, real_t)>&
   SimpsonIntegral::func() const
   {
     return func_;
   }
 
 
-  Float
+  real_t
   SimpsonIntegral::x_0 (void) const
   {
     return x_0_;
   }
 
 
-  Float
+  real_t
   SimpsonIntegral::x_n (void) const
   {
     return x_n_;
@@ -133,36 +136,36 @@ namespace Math
   }
 
 
-  Float
-  SimpsonIntegral::operator () (Float u) const
+  real_t
+  SimpsonIntegral::operator () (real_t u) const
   {
-    Float sum (0), correction (0);
+    real_t sum (0), correction (0);
 
     for (size_t k (0); k < 2 * n_; k += 2)
     {
-      const Float term (
+      const real_t term (
         func_ (x_[k], u) +
-        Float (4) * func_ (x_[k + 1], u) +
+        real_t (4) * func_ (x_[k + 1], u) +
         func_ (x_[k + 2], u)
       );
 
-#ifdef QUAD_PRECISION_ENABLED
+#ifdef REAL_T_IS_BOOST_FLOAT128
       if (boost::math::isnan (term))
 #else
       if (std::isnan (term))
-#endif // QUAD_PRECISION_ENABLED
+#endif // REAL_T_IS_BOOST_FLOAT128
       {
         continue;
       }
       else
       {
-        const Float correctedNextTerm (term - correction);
-        const Float newSum (sum + correctedNextTerm);
+        const real_t correctedNextTerm (term - correction);
+        const real_t newSum (sum + correctedNextTerm);
         correction = (newSum - sum) - correctedNextTerm;
         sum = newSum;
       }
     }
 
-    return (sum / Float (3) * h_);
+    return (sum / real_t (3) * h_);
   }
 }

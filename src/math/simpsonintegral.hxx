@@ -18,17 +18,17 @@ namespace Math
     public:
       SimpsonIntegral (void);
       SimpsonIntegral (
-        const std::function<Float (Float, Float)>& func,
-        Float x_0, Float x_n, size_t n
+        const std::function<real_t (real_t, real_t)>& func,
+        real_t x_0, real_t x_n, size_t n
       ) throw (std::invalid_argument);
       SimpsonIntegral (const SimpsonIntegral& that);
       SimpsonIntegral (SimpsonIntegral&& that);
 
 
-      const std::function<Float (Float, Float)>& func (void) const;
+      const std::function<real_t (real_t, real_t)>& func (void) const;
 
-      Float x_0 (void) const;
-      Float x_n (void) const;
+      real_t x_0 (void) const;
+      real_t x_n (void) const;
 
       size_t n (void) const;
 
@@ -36,23 +36,23 @@ namespace Math
       const SimpsonIntegral& operator = (const SimpsonIntegral& that);
       const SimpsonIntegral& operator = (SimpsonIntegral&& that);
 
-      Float operator () (Float u) const;
+      real_t operator () (real_t u) const;
 
 
-      constexpr static Float Theta_Inv = 15;
+      constexpr static real_t Theta_Inv = REAL_C (15);
 
 
     private:
-      std::function<Float (Float, Float)> func_;
+      std::function<real_t (real_t, real_t)> func_;
 
-      Float x_0_;
-      Float x_n_;
+      real_t x_0_;
+      real_t x_n_;
 
       size_t n_;
 
-      Float h_;
+      real_t h_;
 
-      std::vector<Float> x_;
+      std::vector<real_t> x_;
   };
 }
 

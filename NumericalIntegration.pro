@@ -19,7 +19,8 @@ QMAKE_CXX = ccache g++
 CONFIG(release, debug|release) {
   message("Building `release' target")
 #  QMAKE_CXXFLAGS_RELEASE += -O2 -mtune=generic
-  QMAKE_CXXFLAGS_RELEASE += -O3 -mtune=native
+#  QMAKE_CXXFLAGS_RELEASE += -O3 -mtune=native
+  QMAKE_CXXFLAGS_RELEASE += -O3 -march=native
 } else {
   message("Building `debug' target")
   QMAKE_CXXFLAGS_DEBUG += -O0 -march=native
@@ -40,9 +41,9 @@ equals(QT_ARCH, x86_64) {
 QMAKE_CXXFLAGS += \
   -msse -msse2 -mfpmath=sse \
   -mieee-fp -mno-fancy-math-387 -malign-double -mpc80 \
-  -ffp-contract=off -ffloat-store -frounding-math -fsignaling-nans \
-  -fext-numeric-literals
-#  -fopenmp -ftree-parallelize-loops=4 -pthread
+  -ffp-contract=off -ffloat-store -frounding-math -fsignaling-nans
+#QMAKE_CXXFLAGS += -fext-numeric-literals
+#QMAKE_CXXFLAGS += -fopenmp -ftree-parallelize-loops=4 -pthread
 
 QMAKE_CXXFLAGS_WARN_ON += \
   -fdiagnostics-color=auto \
@@ -52,16 +53,14 @@ QMAKE_EXT_CPP += cxx
 
 QMAKE_EXT_H += hxx
 
-#DEFINES += \
-##  QCUSTOMPLOT_CHECK_DATA \
-#  QUAD_PRECISION_ENABLED
+#DEFINES += QCUSTOMPLOT_CHECK_DATA
+#DEFINES += QUAD_PRECISION_ENABLED
 
 INCLUDEPATH += \
   $$PWD/lib/qcustomplot
 
-#LIBS += \
-#  -lquadmath \
-#  -lgomp
+#LIBS += -lquadmath
+#LIBS += -lgomp
 
 SOURCES += \
   lib/qcustomplot/qcustomplot/qcustomplot.cpp \
