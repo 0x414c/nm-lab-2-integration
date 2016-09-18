@@ -104,7 +104,7 @@ namespace Math
 
 
   const SimpsonIntegral&
-  SimpsonIntegral::operator = (const SimpsonIntegral& that)
+  SimpsonIntegral::operator= (const SimpsonIntegral& that)
   {
     if (this != &that)
     {
@@ -121,7 +121,7 @@ namespace Math
 
 
   const SimpsonIntegral&
-  SimpsonIntegral::operator = (SimpsonIntegral&& that)
+  SimpsonIntegral::operator= (SimpsonIntegral&& that)
   {
     if (this != &that)
     {
@@ -138,7 +138,7 @@ namespace Math
 
 
   real_t
-  SimpsonIntegral::operator () (real_t u) const
+  SimpsonIntegral::operator() (real_t u) const
   {
     real_t sum (0), correction (0);
 

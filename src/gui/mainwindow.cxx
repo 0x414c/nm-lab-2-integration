@@ -233,7 +233,7 @@ MainWindow::on_integrParam_a_DoubleSpinBox_valueChanged (double arg1)
   using namespace Config::Gui::InputLimits;
 
 
-  if (arg1 >= ABCD_Min && arg1 <= ABCD_Max)
+  if (arg1 >= ABCD_Min && arg1 <= ABCD_Max) // TODO: --
   {
     if (arg1 >= ui_->integrParam_b_DoubleSpinBox->value ())
     {
@@ -255,7 +255,7 @@ MainWindow::on_integrParam_b_DoubleSpinBox_valueChanged (double arg1)
   using namespace Config::Gui::InputLimits;
 
 
-  if (arg1 >= ABCD_Min && arg1 <= ABCD_Max)
+  if (arg1 >= ABCD_Min && arg1 <= ABCD_Max) // TODO: --
   {
     if (arg1 <= ui_->integrParam_a_DoubleSpinBox->value ())
     {
@@ -392,7 +392,8 @@ MainWindow::on_plot_functions_CustomPlot_mouseWheel (QWheelEvent* ev)
   else
   {
     if (
-      customPlot->yAxis->selectedParts ().testFlag (QCPAxis::spAxis))
+      customPlot->yAxis->selectedParts ().testFlag (QCPAxis::spAxis)
+    )
     {
       customPlot->axisRect ()->setRangeZoom (customPlot->yAxis->orientation ());
     }

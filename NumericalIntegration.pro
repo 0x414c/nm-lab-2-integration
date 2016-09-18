@@ -73,12 +73,12 @@ SOURCES += \
 HEADERS += \
   lib/qcustomplot/qcustomplot/qcustomplot.h \
   src/config.hxx \
+  src/globaldefines.hxx \
   src/gui/mainwindow.hxx \
   src/math/functions.hxx \
   src/math/mathutils.hxx \
   src/math/numerictypes.hxx \
   src/math/rungerule.hxx \
-  src/math/simpsonintegral.hxx \
-    src/globaldefines.hxx
+  src/math/simpsonintegral.hxx
 
 FORMS += forms/mainwindow.ui

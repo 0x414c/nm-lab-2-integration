@@ -33,13 +33,13 @@ namespace Math
       size_t n (void) const;
 
 
-      const SimpsonIntegral& operator = (const SimpsonIntegral& that);
-      const SimpsonIntegral& operator = (SimpsonIntegral&& that);
+      const SimpsonIntegral& operator= (const SimpsonIntegral& that);
+      const SimpsonIntegral& operator= (SimpsonIntegral&& that);
 
-      real_t operator () (real_t u) const;
+      real_t operator() (real_t u) const;
 
 
-      constexpr static real_t Theta_Inv = REAL_C (15.);
+      static constexpr real_t Theta_Inv = REAL_C (15.);
 
 
     private:
